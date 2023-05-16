@@ -1,27 +1,27 @@
 {
-  "id": "34d2d94e-2310-45b2-a408-c4300338209a",
-  "brand": "Dell",
-  "name": "Vostro",
+  "id": "82f9afe9-3377-4941-be32-5585c23ce181",
+  "brand": "Lenovo",
+  "name": "Thinkpad P53",
   "cpu": {
-    "brand": "Intel",
-    "name": "Core i3-1005G1",
-    "number_cores": 2,
-    "number_threads": 8,
-    "min_ghz": 2.8424863704282544,
-    "max_ghz": 4.929764761870045
+    "brand": "AMD",
+    "name": "Ryzen 5 PRO 3500U",
+    "number_cores": 7,
+    "number_threads": 12,
+    "min_ghz": 2.745311611045012,
+    "max_ghz": 2.9884075851583525
   },
   "ram": {
-    "value": "33",
+    "value": "32",
     "unit": "GIGABYTE"
   },
   "gpus": [
     {
-      "brand": "AMD",
-      "name": "RX 590",
-      "min_ghz": 1.0234920175521394,
-      "max_ghz": 1.42366803114253,
+      "brand": "Nvidia",
+      "name": "GTX 1660-Ti",
+      "min_ghz": 1.2320949707947448,
+      "max_ghz": 1.823716222397827,
       "memory": {
-        "value": "4",
+        "value": "3",
         "unit": "GIGABYTE"
       }
     }
@@ -30,33 +30,33 @@
     {
       "driver": "SSD",
       "memory": {
-        "value": "676",
+        "value": "971",
         "unit": "GIGABYTE"
       }
     },
     {
       "driver": "HDD",
       "memory": {
-        "value": "6",
+        "value": "2",
         "unit": "TERABYTE"
       }
     }
   ],
   "screen": {
-    "size_inch": 13.679578,
+    "size_inch": 16.804842,
     "resolution": {
-      "width": 2318,
-      "height": 1304
+      "width": 7537,
+      "height": 4240
     },
     "panel": "OLED",
     "multitouch": true
   },
   "keyboard": {
-    "layout": "AZERTY",
-    "backlit": true
+    "layout": "QWERTZ",
+    "backlit": false
   },
-  "weight_kg": 1.5973174353493511,
-  "price_usd": 1735.5989156058445,
-  "release_year": 2018,
-  "updated_at": "2023-04-28T23:20:14.149688728Z"
+  "weight_kg": 2.181169487396312,
+  "price_usd": 2069.400943355369,
+  "release_year": 2015,
+  "updated_at": "2023-04-29T00:24:43.813735540Z"
 }
