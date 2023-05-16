@@ -1,12 +1,16 @@
 package main
 
 import (
+	"crypto/tls"
+	"crypto/x509"
 	"flag"
 	"fmt"
 	"github.com/frank5487/pcbook-test/pb"
 	"github.com/frank5487/pcbook-test/service"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
+	"io/ioutil"
 	"log"
 	"net"
 	"time"
@@ -43,6 +47,34 @@ const (
 	tokenDuration = 15 * time.Minute
 )
 
+func loadTLSCredentials() (credentials.TransportCredentials, error) {
+	// load certificate of the CA who signed the client's certificate
+	pemClientCA, err := ioutil.ReadFile("cert/ca-cert.pem")
+	if err != nil {
+		return nil, err
+	}
+
+	certPool := x509.NewCertPool()
+	if !certPool.AppendCertsFromPEM(pemClientCA) {
+		return nil, fmt.Errorf("failed to add client CA's certificate")
+	}
+
+	// load server's certificate and private key
+	serverCert, err := tls.LoadX509KeyPair("cert/server-cert.pem", "cert/server-key.pem")
+	if err != nil {
+		return nil, err
+	}
+
+	// create the credentials and return it
+	config := &tls.Config{
+		Certificates: []tls.Certificate{serverCert},
+		ClientAuth:   tls.RequireAndVerifyClientCert,
+		ClientCAs:    certPool,
+	}
+
+	return credentials.NewTLS(config), nil
+}
+
 func main() {
 	port := flag.Int("port", 0, "the server port")
 	flag.Parse()
@@ -60,9 +92,15 @@ func main() {
 	imageStore := service.NewDiskImageStore("img")
 	ratingStore := service.NewInMemoryRatingStore()
 
+	tlsCredentials, err := loadTLSCredentials()
+	if err != nil {
+		log.Fatal("cannot load TLS credentials: ", err)
+	}
+
 	laptopServer := service.NewLaptopServer(laptopStore, imageStore, ratingStore)
 	interceptor := service.NewAuthInterceptor(jwtManager, accessibleRoles())
 	grpcServer := grpc.NewServer(
+		grpc.Creds(tlsCredentials),
 		grpc.UnaryInterceptor(interceptor.Unary()),
 		grpc.StreamInterceptor(interceptor.Stream()),
 	)
